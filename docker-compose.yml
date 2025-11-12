@@ -1,0 +1,29 @@
+# docker-compose.yml
+services:
+  n8n:
+    image: docker.1ms.run/n8nio/n8n
+    container_name: n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_HOST=115.190.245.47
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=http
+      - WEBHOOK_URL=http://115.190.245.47:5678/
+      - GENERIC_TIMEZONE=Asia/Shanghai
+      - TZ=Asia/Shanghai
+      # 数据库配置（使用 SQLite，适合小规模使用）
+      - DB_TYPE=sqlite
+    volumes:
+      - /root/docker/n8n-data:/home/node/.n8n
+    networks:
+      - n8n-network
+
+volumes:
+  n8n-data:
+    external: true
+  
+networks:
+  n8n-network:
+    driver: bridge
