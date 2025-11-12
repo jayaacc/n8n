@@ -7,14 +7,16 @@ services:
     ports:
       - "5678:5678"
     environment:
-      - N8N_HOST=115.190.245.47
+      - N8N_HOST=localhost
       - N8N_PORT=5678
       - N8N_PROTOCOL=http
-      - WEBHOOK_URL=http://115.190.245.47:5678/
+      - WEBHOOK_URL=http://localhost:5678/
       - GENERIC_TIMEZONE=Asia/Shanghai
       - TZ=Asia/Shanghai
       # 数据库配置（使用 SQLite，适合小规模使用）
       - DB_TYPE=sqlite
+      - N8N_SECURE_COOKIE=false
+
     volumes:
       - /root/docker/n8n-data:/home/node/.n8n
     networks:
