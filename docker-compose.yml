@@ -2,7 +2,7 @@
 services:
   n8n:
     # 使用官方镜像以确保安全性和更新
-    image: n8nio/n8n
+    image: docker.1ms.run/n8nio/n8n
     container_name: n8n
     restart: unless-stopped
     ports:
