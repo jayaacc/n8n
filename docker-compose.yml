@@ -11,13 +11,18 @@ services:
       - N8N_HOST=localhost
       - N8N_PORT=5678
       - N8N_PROTOCOL=http
-      # 使用子路径配置，但保持localhost作为主机
-      - WEBHOOK_URL=http://localhost:5678/workflows/
-      - N8N_PATH=/workflows
+      # 移除子路径配置，简化设置以避免浏览器安全策略冲突
+      - WEBHOOK_URL=http://localhost:5678/
       - GENERIC_TIMEZONE=Asia/Shanghai
       - TZ=Asia/Shanghai
       - N8N_SECURE_COOKIE=false
       - N8N_ENCRYPTION_KEY=your-encryption-key-here-please-change-in-production
+      # 添加推荐的配置项以避免弃用警告
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+      - DB_SQLITE_POOL_SIZE=5
+      - N8N_RUNNERS_ENABLED=true
+      - N8N_BLOCK_ENV_ACCESS_IN_NODE=false
+      - N8N_GIT_NODE_DISABLE_BARE_REPOS=true
     volumes:
       - ./n8n-data:/home/node/.n8n
     user: "node"
