@@ -19,9 +19,13 @@ services:
       # 在生产环境中应设置为true以提高安全性
       # - N8N_SECURE_COOKIE=true
       - N8N_SECURE_COOKIE=false
+      # 添加固定的加密密钥，避免每次重启重新生成
+      - N8N_ENCRYPTION_KEY=your-encryption-key-here-please-change-in-production
     # 使用相对路径，避免权限问题，确保容器内用户可访问
     volumes:
       - ./n8n-data:/home/node/.n8n
+    # 确保容器内用户有正确的权限访问挂载的卷
+    user: "node"
     networks:
       - n8n-network
     # 可选：添加健康检查以监控服务状态
