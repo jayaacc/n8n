@@ -1,7 +1,8 @@
 # docker-compose.yml
 services:
   n8n:
-    image: docker.1ms.run/n8nio/n8n
+    # 使用官方镜像以确保安全性和更新
+    image: n8nio/n8n
     container_name: n8n
     restart: unless-stopped
     ports:
@@ -15,16 +16,20 @@ services:
       - TZ=Asia/Shanghai
       # 数据库配置（使用 SQLite，适合小规模使用）
       - DB_TYPE=sqlite
+      # 在生产环境中应设置为true以提高安全性
+      # - N8N_SECURE_COOKIE=true
       - N8N_SECURE_COOKIE=false
-
+    # 使用相对路径，避免权限问题，确保容器内用户可访问
     volumes:
-      - /root/docker/n8n-data:/home/node/.n8n
+      - ./n8n-data:/home/node/.n8n
     networks:
       - n8n-network
-
-volumes:
-  n8n-data:
-    external: true
+    # 可选：添加健康检查以监控服务状态
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://localhost:5678/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
   
 networks:
   n8n-network:
