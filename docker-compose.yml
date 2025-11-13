@@ -8,10 +8,12 @@ services:
     ports:
       - "5678:5678"
     environment:
-      - N8N_HOST=localhost
+      - N8N_HOST=115.190.245.47
       - N8N_PORT=5678
       - N8N_PROTOCOL=http
-      - WEBHOOK_URL=http://localhost:5678/
+      - WEBHOOK_URL=http://115.190.245.47/n8n/
+      # 指定n8n运行在子路径下
+      - N8N_PATH=/n8n
       - GENERIC_TIMEZONE=Asia/Shanghai
       - TZ=Asia/Shanghai
       # 数据库配置（使用 SQLite，适合小规模使用）
