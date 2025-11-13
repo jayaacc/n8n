@@ -11,32 +11,13 @@ services:
       - N8N_HOST=localhost
       - N8N_PORT=5678
       - N8N_PROTOCOL=http
-      - WEBHOOK_URL=http://localhost:5678/n8n/
-      # 指定n8n运行在子路径下
-      - N8N_PATH=/n8n
+      # 使用子路径配置，但保持localhost作为主机
+      - WEBHOOK_URL=http://localhost:5678/workflows/
+      - N8N_PATH=/workflows
       - GENERIC_TIMEZONE=Asia/Shanghai
       - TZ=Asia/Shanghai
-      # 数据库配置（使用 SQLite，适合小规模使用）
-      - DB_TYPE=sqlite
-      # 在生产环境中应设置为true以提高安全性
-      # - N8N_SECURE_COOKIE=true
       - N8N_SECURE_COOKIE=false
-      # 添加固定的加密密钥，避免每次重启重新生成
       - N8N_ENCRYPTION_KEY=your-encryption-key-here-please-change-in-production
-    # 使用相对路径，避免权限问题，确保容器内用户可访问
     volumes:
       - ./n8n-data:/home/node/.n8n
-    # 确保容器内用户有正确的权限访问挂载的卷
     user: "node"
-    networks:
-      - n8n-network
-    # 可选：添加健康检查以监控服务状态
-    healthcheck:
-      test: ["CMD", "wget", "--spider", "http://localhost:5678/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-  
-networks:
-  n8n-network:
-    driver: bridge
